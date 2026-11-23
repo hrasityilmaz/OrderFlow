@@ -1,0 +1,35 @@
+
+services:
+  identity-db:
+    image: postgres:17
+    container_name: identity-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: identity_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cok-secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - identity-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d identity_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: identity-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@orderflow.local
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      identity-db:
+        condition: service_healthy
+
+volumes:
+  identity-postgres-data:
