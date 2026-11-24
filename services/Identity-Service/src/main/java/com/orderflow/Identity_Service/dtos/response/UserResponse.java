@@ -1,6 +1,5 @@
 package com.orderflow.Identity_Service.dtos.response;
 
-import java.time.Instant;
 import java.util.UUID;
 
 public record UserResponse(
@@ -12,6 +11,5 @@ public record UserResponse(
     String phoneNumber,
     boolean emailVerified,
     boolean phoneVerified,
-    String status,
-    Instant createdAt
+    String status
 ) {}

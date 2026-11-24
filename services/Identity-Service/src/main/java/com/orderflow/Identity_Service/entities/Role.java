@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,7 +22,10 @@ import jakarta.persistence.UniqueConstraint;
             )
         }
 )
+@Entity
 public class Role {
+
+    public Role(){}
 
     @Id
     @GeneratedValue (strategy = GenerationType.UUID)
@@ -51,6 +55,7 @@ public class Role {
         this.name = name;
         this.description = description;
         this.systemRole = systemRole;
+        this.active = true;
     }
 
 	public UUID getId() {

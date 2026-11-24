@@ -59,15 +59,20 @@ public class UserEntity {
     private boolean phoneVerified;
 
     @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private Instant createdAt;
 
     @UpdateTimestamp
+    @Column(nullable = false)
     private Instant updatedAt;
 
-    public UserEntity(final String email, final String username, final String passwordHash) {
+    public UserEntity(final String email, final String username, final String passwordHash, final String firstName, final String lastName, final String phoneNumber) {
             this.email = email;
             this.username = username;
             this.passwordHash = passwordHash;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.phoneNumber = phoneNumber;
     }
 
 	public UUID getId() {
