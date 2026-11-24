@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.Audited.Table;
 
 import com.orderflow.Identity_Service.enums.UserStatus;
 
@@ -16,9 +15,16 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
 
 @Entity
-@Table (name = "Users")
+@Table (name = "users",
+        indexes = {
+            @Index (name = "idx_users_email", columnList = "email"),
+            @Index(name = "idx_users_username", columnList = "username")
+        }
+    )
 public class UserEntity {
     @Id
     @GeneratedValue (strategy = GenerationType.UUID)
@@ -27,7 +33,7 @@ public class UserEntity {
     @Column (nullable = false, unique = true, length = 50)
     private String email;
 
-    @Column (nullable = false, length = 50)
+    @Column (nullable = false, unique = true, length = 50)
     private String username;
 
     @Column (name = "password_hash", nullable = false)
@@ -53,7 +59,7 @@ public class UserEntity {
     private boolean phoneVerified;
 
     @CreationTimestamp
-    private Instant createAt;
+    private Instant createdAt;
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -144,12 +150,12 @@ public class UserEntity {
 		this.phoneVerified = phoneVerified;
 	}
 
-	public Instant getCreateAt() {
-		return createAt;
+	public Instant getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreateAt(Instant createAt) {
-		this.createAt = createAt;
+	public void setCreatedAt(Instant createAt) {
+		this.createdAt = createAt;
 	}
 
 	public Instant getUpdatedAt() {
